@@ -1,0 +1,2 @@
+INSERT INTO Bryant_Insurance.Staff (SID, Username, Password, Is_Authorized) VALUES (1, 'bryant', 'bryant123', 0);
+INSERT INTO Bryant_Insurance.Staff (SID, Username, Password, Is_Authorized) VALUES (2, 'kobe', 'iAmKobe', 1);
