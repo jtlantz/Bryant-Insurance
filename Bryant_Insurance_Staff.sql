@@ -1,2 +1,2 @@
-INSERT INTO Bryant_Insurance.Staff (SID, Username, Password, Is_Authorized) VALUES (1, 'bryant', 'bryant123', 0);
-INSERT INTO Bryant_Insurance.Staff (SID, Username, Password, Is_Authorized) VALUES (2, 'kobe', 'iAmKobe', 1);
+INSERT INTO bryant_insurance.staff (sid, username, password, role) VALUES (1, 'bryant', 'bryant123', 'ADMIN');
+INSERT INTO bryant_insurance.staff (sid, username, password, role) VALUES (2, 'kobe', 'iAmKobe', 'USER');

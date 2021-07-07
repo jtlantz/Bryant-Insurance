@@ -3,7 +3,6 @@ package net.bryant.webapplicationproject;
 import net.bryant.webapplicationproject.model.Client;
 import net.bryant.webapplicationproject.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,14 +1,12 @@
 package net.bryant.webapplicationproject;
 
 import net.bryant.webapplicationproject.model.User;
-import net.bryant.webapplicationproject.repository.ClientRepository;
 import net.bryant.webapplicationproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 //@Component
 public class WebappApplicationRunner implements ApplicationRunner {
@@ -28,9 +26,5 @@ public class WebappApplicationRunner implements ApplicationRunner {
             adminUser.setRole("ADMIN");
             userRepository.save(adminUser);
         }
-
-
-
     }
-
 }

@@ -1,48 +1,49 @@
-create table Client
+create table client
 (
-    CID                 int auto_increment,
-    Firstname           varchar(30)          not null,
-    Lastname            varchar(30)          not null,
-    Phone_Number        varchar(10)          null,
-    Email               varchar(30)          null,
-    Quote_Date          date                 null,
-    Date_Sold           date                 null,
-    Latest_Contact_Date date                 null,
-    Expiry_Date         date                 null,
-    Quote_Status        char(20)             null,
-    Number_of_Policy    int                  null,
-    Commission_Amount   int                  null,
-    Has_Review          tinyint(1) default 0 null,
-    Referral            varchar(50)          null,
-    constraint Client_CID_uindex
-        unique (CID)
+    cid                 int auto_increment,
+    firstname           varchar(30)          not null,
+    lastname            varchar(30)          not null,
+    phone_number        varchar(10)          null,
+    email               varchar(30)          null,
+    quote_date          date                 null,
+    date_sold           date                 null,
+    latest_contact_date date                 null,
+    expiry_date         date                 null,
+    quote_status        char(20)             null,
+    number_of_policy    int                  null,
+    commission_amount   int                  null,
+    has_review          tinyint(1) default 0 null,
+    referral            varchar(50)          null,
+    constraint client_cid_uindex
+        unique (cid)
 );
 
-alter table Client
-    add primary key (CID);
+alter table client
+    add primary key (cid);
 
-create table Carrier
+create table carrier
 (
-    Type varchar(20) not null,
-    CID  int         not null,
-    constraint CID
-        foreign key (CID) references Client (CID)
+    id   int auto_increment
+        primary key,
+    type varchar(20) not null,
+    cid  int         not null,
+    constraint cid
+        foreign key (cid) references client (cid)
             on delete cascade
 );
 
-create table Staff
+create table staff
 (
-    SID           int auto_increment,
-    Username      varchar(255)         not null,
-    Password      varchar(255)         not null,
-    Is_Authorized tinyint(1) default 0 null,
-    constraint Staff_SID_uindex
-        unique (SID),
-    constraint Staff_Username_uindex
-        unique (Username)
+    sid      int auto_increment,
+    username varchar(255) not null,
+    password varchar(255) not null,
+    role     varchar(255) not null,
+    constraint staff_sid_uindex
+        unique (sid),
+    constraint staff_username_uindex
+        unique (username)
 );
 
-alter table Staff
-    add primary key (SID);
-
+alter table staff
+    add primary key (sid);
 
