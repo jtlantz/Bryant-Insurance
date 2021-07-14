@@ -42,6 +42,7 @@ public class UserService {
         return clientRepository.findAll();
     }
 
+    // CreateUserResponseDTO
     public User createUser(User request) {
         User user = new User();
         if (userRepository.findByUsername(request.getUsername()) != null) {
@@ -116,4 +117,5 @@ public class UserService {
             clientRepository.deleteById(cid);
         }
     }
+
 }
