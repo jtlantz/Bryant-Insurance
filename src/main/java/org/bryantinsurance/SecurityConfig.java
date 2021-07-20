@@ -42,19 +42,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/","/api/login", "/api/logout").permitAll();
         //USER
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/user**").hasRole("ADMIN");
+                .antMatchers(HttpMethod.GET, "/api/user").hasAnyRole("USER", "ADMIN");
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "api/client/**").hasRole("USER");
+                .antMatchers(HttpMethod.POST, "/api/user/**").hasRole("ADMIN");
+
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.PATCH, "/api/user/**").hasRole("ADMIN");
+
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN");
+
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/api/client/**").hasAnyRole("ADMIN", "USER");
+
+        http.authorizeRequests()
+                .antMatchers("/api/carrier").hasAnyRole("ADMIN", "USER");
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").hasRole("ADMIN");
 
-//        http.authorizeRequests()
-//                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
         http.exceptionHandling()
                 .authenticationEntryPoint(new JsonHttp403ForbiddenEntryPoint());
-        http.authorizeRequests().antMatchers("/**").authenticated();
+        http.authorizeRequests().antMatchers("/**").permitAll();
 //        http.formLogin().permitAll();
 //        http.authorizeRequests()
 //                .antMatchers("/", "api/login", "api/logout")
@@ -80,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             String ajaxJsonResponse = AjaxUtils.convertToString(SimpleResponseDTO
                     .builder()
                     .success(false)
-                    .message("Page you are trying to access doesnt exist or you dont have permission")
+                    .message("Permission Denied")
                     .build()
             );
             httpServletResponse.getWriter().println(ajaxJsonResponse);
