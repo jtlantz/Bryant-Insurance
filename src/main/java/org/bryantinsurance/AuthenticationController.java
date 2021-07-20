@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api")
-public class AuthenticationController {
+public class AuthenticationController{
 
     @PostMapping("/login")
     public String login(HttpServletRequest request) {

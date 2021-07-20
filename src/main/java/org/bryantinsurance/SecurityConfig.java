@@ -36,8 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable();
+        http.formLogin().permitAll();
         http.authorizeRequests()
-                .antMatchers("/","/api/login", "/api/logout").hasRole("ADMIN").and().formLogin();
+                .antMatchers("/","/api/login", "/api/logout").permitAll();
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
         http.exceptionHandling()
@@ -70,8 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                              HttpServletResponse httpServletResponse,
                              AuthenticationException e) throws IOException, ServletException {
             //send JSON msg
-            httpServletResponse.getWriter().println("YAY");
-
+            httpServletResponse.getWriter().println("You dont have access to this page");
         }
     }
 }
