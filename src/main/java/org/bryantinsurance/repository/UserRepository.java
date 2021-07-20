@@ -1,6 +1,6 @@
-package net.bryant.webapplicationproject.repository;
+package org.bryantinsurance.repository;
 
-import net.bryant.webapplicationproject.model.User;
+import org.bryantinsurance.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

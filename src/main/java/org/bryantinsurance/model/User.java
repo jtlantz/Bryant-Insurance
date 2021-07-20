@@ -1,4 +1,4 @@
-package net.bryant.webapplicationproject.model;
+package org.bryantinsurance.model;
 
 import lombok.Data;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package net.bryant.webapplicationproject;
+package org.bryantinsurance;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,7 +1,7 @@
-package net.bryant.webapplicationproject;
+package org.bryantinsurance;
 
-import net.bryant.webapplicationproject.model.User;
-import net.bryant.webapplicationproject.repository.UserRepository;
+import org.bryantinsurance.model.User;
+import org.bryantinsurance.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

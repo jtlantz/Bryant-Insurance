@@ -1,8 +1,7 @@
-package net.bryant.webapplicationproject.model;
+package org.bryantinsurance.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -23,6 +22,6 @@ public class Carrier {
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cid")
-    private Carrier carrier;
+    private Client client;
 
 }

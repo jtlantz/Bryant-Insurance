@@ -1,6 +1,6 @@
-package net.bryant.webapplicationproject.repository;
+package org.bryantinsurance.repository;
 
-import net.bryant.webapplicationproject.model.Carrier;
+import org.bryantinsurance.model.Carrier;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CarrierRepository extends JpaRepository<Carrier, Long> {

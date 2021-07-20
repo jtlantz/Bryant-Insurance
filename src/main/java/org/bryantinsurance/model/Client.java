@@ -1,9 +1,8 @@
-package net.bryant.webapplicationproject.model;
+package org.bryantinsurance.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -62,6 +61,6 @@ public class Client {
     private String referral;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "carrier")
-    private Set<Carrier> carrierSet = new HashSet<>();
+    @OneToMany(mappedBy = "client")
+    private Set<Carrier> carriers = new HashSet<>();
 }
