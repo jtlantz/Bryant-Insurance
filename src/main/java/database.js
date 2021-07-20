@@ -4,4 +4,5 @@ const dbConnection = mysql.createPool({
     user: "root",
     password: "banana",
     database: "webapp"
+
 }).promise()
