@@ -1,5 +1,6 @@
 package org.bryantinsurance;
 
+import org.bryantinsurance.model.Carrier;
 import org.bryantinsurance.model.Client;
 import org.bryantinsurance.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ClientService clientService;
+
     @GetMapping("/user/{username}")
     public ResponseEntity<User> getUser(@PathVariable("username") String username) {
         return ResponseEntity.ok(userService.findByUsername(username));
@@ -26,7 +30,7 @@ public class UserController {
         return ResponseEntity.ok(userService.findAllUser());
     }
 
-    @PostMapping("/user")
+    @PostMapping("/user/create")
     public SimpleResponseDTO createUser(@RequestBody User request) {
         return userService.createUser(request);
     }
@@ -43,21 +47,37 @@ public class UserController {
 
     @GetMapping("/client")
     public ResponseEntity<List<Client>> findAllClients() {
-        return ResponseEntity.ok(userService.findAllClients());
+        return ResponseEntity.ok(clientService.findAllClients());
     }
 
-    @PostMapping("/client")
+    @PostMapping("/client/create")
     public SimpleResponseDTO createClient(@RequestBody Client request) {
-        return userService.createClient(request);
+        return clientService.createClient(request);
     }
 
     @PatchMapping("/client/{cid}")
     public SimpleResponseDTO updateClient(@RequestBody Client request, @PathVariable("cid") Long cid) {
-        return userService.updateClient(cid, request);
+        return clientService.updateClient(cid, request);
     }
 
     @DeleteMapping("/client/{cid}")
     public SimpleResponseDTO deleteClient(@PathVariable("cid") Long cid) {
-        return userService.deleteClient(cid);
+        return clientService.deleteClient(cid);
     }
+
+    @GetMapping("/carrier/{cid}")
+    public List<Carrier> getCarriers(@PathVariable("cid") Long cid) {
+        return clientService.findAllCarriers(cid);
+    }
+
+    @PostMapping("/carrier/create/{cid}")
+    public SimpleResponseDTO createCarrier(@RequestBody Carrier request, @PathVariable("cid") Long cid) {
+        return clientService.createCarrier(cid, request);
+    }
+
+    @DeleteMapping("/carrier/delete/{id}")
+    public SimpleResponseDTO deleteCarrier(@PathVariable("id") Long id) {
+        return clientService.deleteCarrier(id);
+    }
+
 }

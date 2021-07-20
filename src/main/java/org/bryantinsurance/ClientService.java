@@ -26,7 +26,7 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Client createClient(Client request) {
+    public SimpleResponseDTO createClient(Client request) {
         Client firstname = clientRepository.findByFirstname(request.getFirstname());
         Client lastname = clientRepository.findByLastname(request.getLastname());
         if (firstname != null && lastname != null) {
@@ -34,10 +34,15 @@ public class ClientService {
         }
         Client client = new Client();
         BeanUtils.copyProperties(request, client);
-        return clientRepository.save(client);
+        clientRepository.save(client);
+        return SimpleResponseDTO
+                .builder()
+                .success(true)
+                .message("You created client successfully.")
+                .build();
     }
 
-    public Client updateClient(Long cid, Client request) {
+    public SimpleResponseDTO updateClient(Long cid, Client request) {
         Optional<Client> optionalClient = clientRepository.findById(cid);
         Client firstname = clientRepository.findByFirstname(request.getFirstname());
         Client lastname = clientRepository.findByLastname(request.getLastname());
@@ -60,13 +65,29 @@ public class ClientService {
         client.setCommissionAmount(request.getCommissionAmount());
         client.setHasReview(request.isHasReview());
         client.setReferral(request.getReferral());
-        return clientRepository.save(client);
+        clientRepository.save(client);
+        return SimpleResponseDTO
+                .builder()
+                .success(true)
+                .message("You updated client successfully.")
+                .build();
     }
 
-    public void deleteClient(Long cid) {
+    public SimpleResponseDTO deleteClient(Long cid) {
         Optional<Client> client = clientRepository.findById(cid);
         if (client.isPresent()) {
             clientRepository.deleteById(cid);
+            return SimpleResponseDTO
+                    .builder()
+                    .success(true)
+                    .message("You deleted client successfully.")
+                    .build();
+        } else {
+            return SimpleResponseDTO
+                    .builder()
+                    .success(false)
+                    .message("Cannot find client in database.")
+                    .build();
         }
     }
 
@@ -80,5 +101,27 @@ public class ClientService {
                 .success(true)
                 .message("You created carrier successfully.")
                 .build();
+    }
+
+    public List<Carrier> findAllCarriers(Long cid) {
+        return carrierRepository.findByClientId(cid);
+    }
+
+    public SimpleResponseDTO deleteCarrier(Long id) {
+        Optional<Carrier> carrier = carrierRepository.findById(id);
+        if (carrier.isPresent()) {
+            carrierRepository.deleteById(id);
+            return SimpleResponseDTO
+                    .builder()
+                    .success(true)
+                    .message("You deleted carrier successfully.")
+                    .build();
+        }
+        return SimpleResponseDTO
+                .builder()
+                .success(true)
+                .message("You deleted carrier successfully.")
+                .build();
+
     }
 }
