@@ -52,6 +52,11 @@ public class UserController {
         return ResponseEntity.ok(userService.createClient(request));
     }
 
+    @GetMapping("/client/{cid}")
+    public ResponseEntity<List<Client>> findClient(@PathVariable("cid") Long cid) {
+        return ResponseEntity.ok(userService.findAllClients());
+    }
+
     @PatchMapping("/client/{cid}")
     public ResponseEntity<Client> updateClient(@RequestBody Client request, @PathVariable("cid") Long cid) {
         return ResponseEntity.ok(userService.updateClient(cid, request));
