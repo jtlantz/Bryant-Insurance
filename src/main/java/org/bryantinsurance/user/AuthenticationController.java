@@ -18,7 +18,7 @@ public class AuthenticationController{
         String password = request.getParameter("password");
         try {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if(principal != null && principal instanceof org.springframework.security.core.userdetails.User){
+            if(principal != null && principal instanceof CustomUserDetails){
                 request.logout();
             }
             request.login(username, password);

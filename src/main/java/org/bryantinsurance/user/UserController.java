@@ -2,9 +2,11 @@ package org.bryantinsurance.user;
 
 import org.bryantinsurance.ClientService;
 import org.bryantinsurance.SimpleResponseDTO;
+import org.bryantinsurance.CurrentUserDTO;
 import org.bryantinsurance.UserService;
 import org.bryantinsurance.client.Carrier;
 import org.bryantinsurance.client.Client;
+import javax.servlet.ServletException;
 import org.bryantinsurance.util.AjaxUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.CustomEditorConfigurer;
