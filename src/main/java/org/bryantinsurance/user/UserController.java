@@ -5,8 +5,12 @@ import org.bryantinsurance.SimpleResponseDTO;
 import org.bryantinsurance.UserService;
 import org.bryantinsurance.client.Carrier;
 import org.bryantinsurance.client.Client;
+import org.bryantinsurance.util.AjaxUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.CustomEditorConfigurer;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +25,7 @@ public class UserController {
     @Autowired
     private ClientService clientService;
 
+
     @GetMapping("/user/{username}")
     public ResponseEntity<User> getUser(@PathVariable("username") String username) {
         return ResponseEntity.ok(userService.findByUsername(username));
@@ -31,7 +36,7 @@ public class UserController {
         return ResponseEntity.ok(userService.findAllUser());
     }
 
-    @PostMapping("/user")
+    @PostMapping("/user/create")
     public SimpleResponseDTO createUser(@RequestBody User request) {
         return userService.createUser(request);
     }

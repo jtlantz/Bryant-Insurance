@@ -2,6 +2,7 @@ package org.bryantinsurance.user;
 
 import org.bryantinsurance.SimpleResponseDTO;
 import org.bryantinsurance.util.AjaxUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
@@ -12,45 +13,48 @@ import javax.servlet.http.HttpServletRequest;
 public class AuthenticationController{
 
     @PostMapping("/login")
-    public String login(HttpServletRequest request) {
+    public SimpleResponseDTO login(HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         try {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(principal != null && principal instanceof org.springframework.security.core.userdetails.User){
+                request.logout();
+            }
             request.login(username, password);
-            return AjaxUtils.convertToString(SimpleResponseDTO
+            request.setAttribute("role", "ADMIN");
+            return SimpleResponseDTO
                     .builder()
                     .success(true)
                     .message("Successfully login")
-                    .build()
-            );
+                    .build();
+
         } catch (ServletException e){
-            return AjaxUtils.convertToString(SimpleResponseDTO
+            return SimpleResponseDTO
                     .builder()
                     .success(false)
-                    .message("Failed to login")
-                    .build()
-            );
+                    .message("Invalid password or username")
+                    .build();
         }
     }
 
     @GetMapping("logout")
-    public String logout(HttpServletRequest request) {
+    public SimpleResponseDTO logout(HttpServletRequest request) {
         try {
             request.logout();
-            return AjaxUtils.convertToString(SimpleResponseDTO
+            return SimpleResponseDTO
                     .builder()
                     .success(true)
                     .message("Successfully logout")
-                    .build()
-            );
+                    .build();
 
         } catch (ServletException e) {
-            return AjaxUtils.convertToString(SimpleResponseDTO
+            return SimpleResponseDTO
                     .builder()
                     .success(false)
                     .message("Failed to logout")
-                    .build()
-            );
+                    .build();
+
         }
     }
 }

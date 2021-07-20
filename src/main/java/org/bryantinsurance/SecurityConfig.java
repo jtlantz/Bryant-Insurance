@@ -5,6 +5,7 @@ import org.bryantinsurance.util.AjaxUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -21,6 +22,7 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private CustomUserDetailsService customUserDetailsService;
@@ -36,8 +38,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.formLogin().permitAll();
+        //authen controller
         http.authorizeRequests()
                 .antMatchers("/","/api/login", "/api/logout").permitAll();
+        //user controller
+        http.authorizeRequests()
+                .antMatchers("/api/user", "/api/user/create").hasRole("ADMIN");
+
+        //client controller
+        http.authorizeRequests()
+                .antMatchers("/api/client", "/api/client/create").permitAll();
+
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
         http.exceptionHandling()
