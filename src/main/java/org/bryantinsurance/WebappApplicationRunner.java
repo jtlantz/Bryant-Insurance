@@ -1,4 +1,4 @@
-package org.muic.ssc;
+package org.bryantinsurance;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
