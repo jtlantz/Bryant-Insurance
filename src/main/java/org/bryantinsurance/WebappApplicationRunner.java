@@ -1,5 +1,7 @@
 package org.bryantinsurance;
 
+import org.bryantinsurance.repository.UserRepository;
+import org.bryantinsurance.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

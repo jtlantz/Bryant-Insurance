@@ -1,26 +1,23 @@
-package org.muic.ssc;
+package org.bryantinsurance.user;
 
 import org.springframework.context.annotation.Bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "Staff")
-public class User {
+@Table(name = "tbl_user")
+public class User { //spring boot application runner
 
     @Id
-    @Column(name = "SID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "Username")
+
     private String username;
-    @Column(name = "Password")
+
     private String password;
-    @Column(name = "Is_Authorized")
+
     private boolean isAuthorized;
-    @Column(name = "Role")
+
     private String role;
 
     @Override

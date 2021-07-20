@@ -1,5 +1,6 @@
-package org.bryantinsurance;
+package org.bryantinsurance.user;
 
+import org.bryantinsurance.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

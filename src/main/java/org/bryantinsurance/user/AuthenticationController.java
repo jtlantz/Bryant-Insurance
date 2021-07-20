@@ -1,5 +1,6 @@
-package org.bryantinsurance;
+package org.bryantinsurance.user;
 
+import org.bryantinsurance.SimpleResponseDTO;
 import org.bryantinsurance.util.AjaxUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class AuthenticationController{
         } catch (ServletException e){
             return AjaxUtils.convertToString(SimpleResponseDTO
                     .builder()
-                    .success(true)
+                    .success(false)
                     .message("Failed to login")
                     .build()
             );
@@ -46,7 +47,7 @@ public class AuthenticationController{
         } catch (ServletException e) {
             return AjaxUtils.convertToString(SimpleResponseDTO
                     .builder()
-                    .success(true)
+                    .success(false)
                     .message("Failed to logout")
                     .build()
             );
