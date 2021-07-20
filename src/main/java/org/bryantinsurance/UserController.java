@@ -1,7 +1,7 @@
-package net.bryant.webapplicationproject;
+package org.bryantinsurance;
 
-import net.bryant.webapplicationproject.model.Client;
-import net.bryant.webapplicationproject.model.User;
+import org.bryantinsurance.model.Client;
+import org.bryantinsurance.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

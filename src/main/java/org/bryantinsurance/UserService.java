@@ -1,9 +1,9 @@
-package net.bryant.webapplicationproject;
+package org.bryantinsurance;
 
-import net.bryant.webapplicationproject.model.Client;
-import net.bryant.webapplicationproject.model.User;
-import net.bryant.webapplicationproject.repository.ClientRepository;
-import net.bryant.webapplicationproject.repository.UserRepository;
+import org.bryantinsurance.model.Client;
+import org.bryantinsurance.model.User;
+import org.bryantinsurance.repository.ClientRepository;
+import org.bryantinsurance.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
