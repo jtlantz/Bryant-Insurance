@@ -8,15 +8,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="bryant-insurance" />
+        <module name="Bryant-Insurance" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="bryant-insurance" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="bryant-insurance" options="-parameters" />
+      <module name="Bryant-Insurance" options="-parameters" />
     </option>
   </component>
 </project>

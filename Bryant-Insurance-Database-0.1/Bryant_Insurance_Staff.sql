@@ -1,0 +1,2 @@
+INSERT INTO bryant_insurance.staff (sid, username, password, role) VALUES (1, 'bryant', 'bryant123', 'ADMIN');
+INSERT INTO bryant_insurance.staff (sid, username, password, role) VALUES (2, 'kobe', 'iAmKobe', 'USER');

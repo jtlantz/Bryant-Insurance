@@ -1,0 +1,16 @@
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Safeco', 1);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Safeco', 2);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Travelers', 2);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Progressive', 3);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Encompass', 3);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Travelers', 4);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Safeco', 5);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Progressive', 5);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Encompass', 5);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('All', 6);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Encompass', 10);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Travelers', 10);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Progressive', 11);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Encompass', 11);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('Travelers', 11);
+INSERT INTO bryant_insurance.carrier (type, cid) VALUES ('All', 15);
