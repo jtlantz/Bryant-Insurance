@@ -68,13 +68,22 @@ public class UserController {
     }
 
     @DeleteMapping("/client/{cid}")
-    public ResponseEntity<Void> deleteClient(@PathVariable("cid") Long cid) {
-        clientService.deleteClient(cid);
-        return ResponseEntity.ok().build();
+    public SimpleResponseDTO deleteClient(@PathVariable("cid") Long cid) {
+        return clientService.deleteClient(cid);
+    }
+
+    @GetMapping("/carrier/{cid}")
+    public List<Carrier> getCarriers(@PathVariable("cid") Long cid) {
+        return clientService.findAllCarriers(cid);
     }
 
     @PostMapping("/carrier/create/{cid}")
     public SimpleResponseDTO createCarrier(@RequestBody Carrier request, @PathVariable("cid") Long cid) {
         return clientService.createCarrier(cid, request);
+    }
+
+    @DeleteMapping("/carrier/delete/{id}")
+    public SimpleResponseDTO deleteCarrier(@PathVariable("id") Long id) {
+        return clientService.deleteCarrier(id);
     }
 }
