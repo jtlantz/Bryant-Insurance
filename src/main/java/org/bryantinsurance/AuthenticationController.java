@@ -1,5 +1,6 @@
 package org.bryantinsurance;
 
+import org.bryantinsurance.util.AjaxUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
@@ -15,9 +16,19 @@ public class AuthenticationController{
         String password = request.getParameter("password");
         try {
             request.login(username, password);
-            return "Login";
+            return AjaxUtils.convertToString(SimpleResponseDTO
+                    .builder()
+                    .success(true)
+                    .message("Successfully login")
+                    .build()
+            );
         } catch (ServletException e){
-            return "Failed to Login";
+            return AjaxUtils.convertToString(SimpleResponseDTO
+                    .builder()
+                    .success(true)
+                    .message("Failed to login")
+                    .build()
+            );
         }
     }
 
@@ -25,9 +36,20 @@ public class AuthenticationController{
     public String logout(HttpServletRequest request) {
         try {
             request.logout();
-            return "Logout";
+            return AjaxUtils.convertToString(SimpleResponseDTO
+                    .builder()
+                    .success(true)
+                    .message("Successfully logout")
+                    .build()
+            );
+
         } catch (ServletException e) {
-            return "Failed to Logout";
+            return AjaxUtils.convertToString(SimpleResponseDTO
+                    .builder()
+                    .success(true)
+                    .message("Failed to logout")
+                    .build()
+            );
         }
     }
 }

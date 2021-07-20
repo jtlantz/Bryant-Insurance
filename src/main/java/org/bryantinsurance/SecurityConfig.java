@@ -1,5 +1,6 @@
 package org.bryantinsurance;
 
+import org.bryantinsurance.util.AjaxUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -71,7 +72,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                              HttpServletResponse httpServletResponse,
                              AuthenticationException e) throws IOException, ServletException {
             //send JSON msg
-            httpServletResponse.getWriter().println("You dont have access to this page");
+            String ajaxJsonResponse = AjaxUtils.convertToString(SimpleResponseDTO
+                    .builder()
+                    .success(true)
+                    .message("Page you are trying to access doesnt exist or you dont have permission")
+                    .build()
+            );
+            httpServletResponse.getWriter().println(ajaxJsonResponse);
         }
     }
 }
