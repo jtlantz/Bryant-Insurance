@@ -31,10 +31,12 @@ public class UserController {
         return ResponseEntity.ok(userService.findByUsername(username));
     }
 
+
     @GetMapping("/user")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.findAllUser());
     }
+
 
     @PostMapping("/user/create")
     public SimpleResponseDTO createUser(@RequestBody User request) {

@@ -19,13 +19,12 @@ public class WebappApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        User adminUser = userRepository.findByUsername(("Phill"));
+        User adminUser = userRepository.findByUsername(("gigadot"));
         if (adminUser == null) {
             adminUser = new User();
-            adminUser.setUsername("Phill");
-            adminUser.setPassword(passwordEncoder.encode("qvctyi80"));
-            adminUser.setAuthorized(true);
-            adminUser.setRole("ADMIN");
+            adminUser.setUsername("gigadot");
+            adminUser.setPassword(passwordEncoder.encode("123456"));
+            adminUser.setRole("ROLE_USER");
             userRepository.save(adminUser);
         }
         else{

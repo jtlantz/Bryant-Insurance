@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_user")
+@Table(name = "user")
 public class User { //spring boot application runner
 
     @Id
@@ -16,8 +16,6 @@ public class User { //spring boot application runner
 
     private String password;
 
-    private boolean isAuthorized;
-
     private String role;
 
     @Override
@@ -26,7 +24,6 @@ public class User { //spring boot application runner
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", isAuthorized=" + isAuthorized +
                 ", role='" + role + '\'' +
                 '}';
     }
@@ -61,13 +58,5 @@ public class User { //spring boot application runner
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public boolean isAuthorized() {
-        return isAuthorized;
-    }
-
-    public void setAuthorized(boolean authorized) {
-        isAuthorized = authorized;
     }
 }

@@ -22,15 +22,14 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    private CustomUserDetailsService customUserDetailsService;
 
 
     @Override
@@ -38,19 +37,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.formLogin().permitAll();
-        //authen controller
+        //permit all
         http.authorizeRequests()
                 .antMatchers("/","/api/login", "/api/logout").permitAll();
-        //user controller
+        //USER
         http.authorizeRequests()
-                .antMatchers("/api/user", "/api/user/create").hasRole("ADMIN");
-
-        //client controller
-        http.authorizeRequests()
-                .antMatchers("/api/client", "/api/client/create").permitAll();
+                .antMatchers(HttpMethod.GET, "/api/user**").hasRole("ADMIN");
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+                .antMatchers(HttpMethod.GET, "api/client/**").hasRole("USER");
+
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**").hasRole("ADMIN");
+
+//        http.authorizeRequests()
+//                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
         http.exceptionHandling()
                 .authenticationEntryPoint(new JsonHttp403ForbiddenEntryPoint());
         http.authorizeRequests().antMatchers("/**").authenticated();
@@ -67,11 +68,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                .csrf()
 //                .disable();
-    }
-
-    @Override
-    public UserDetailsService userDetailsService() {
-        return customUserDetailsService;
     }
 
     class JsonHttp403ForbiddenEntryPoint implements AuthenticationEntryPoint{
