@@ -61,7 +61,6 @@ public class ClientService {
         client.setLatestContactDate(request.getLatestContactDate());
         client.setExpiryDate(request.getExpiryDate());
         client.setQuoteStatus(request.getQuoteStatus());
-        client.setNumberOfPolicy(request.getNumberOfPolicy());
         client.setCommissionAmount(request.getCommissionAmount());
         client.setHasReview(request.isHasReview());
         client.setReferral(request.getReferral());
@@ -91,11 +90,11 @@ public class ClientService {
         }
     }
 
-    public SimpleResponseDTO createCarrier(Long cid, Carrier request) {
-        Carrier carrier = new Carrier();
-        BeanUtils.copyProperties(request, carrier);
-        carrier.setClient(clientRepository.getById(cid));
-        carrierRepository.save(carrier);
+    public SimpleResponseDTO addCarrierToClient(Long cid, Carrier request) {
+        Client client = clientRepository.getById(cid);
+        Carrier carrier = carrierRepository.findByType(request.getType());
+        client.getCarriers().add(carrier);
+        clientRepository.save(client);
         return SimpleResponseDTO
                 .builder()
                 .success(true)
@@ -104,24 +103,28 @@ public class ClientService {
     }
 
     public List<Carrier> findAllCarriers(Long cid) {
-        return carrierRepository.findByClientId(cid);
+        Client client = clientRepository.getById(cid);
+        return carrierRepository.findByClients(client);
     }
 
-    public SimpleResponseDTO deleteCarrier(Long id) {
+    public SimpleResponseDTO deleteCarrierFromClient(Long cid, Long id) {
+        Client client = clientRepository.getById(cid);
         Optional<Carrier> carrier = carrierRepository.findById(id);
         if (carrier.isPresent()) {
-            carrierRepository.deleteById(id);
+            client.getCarriers().remove(carrier.get());
+            clientRepository.save(client);
             return SimpleResponseDTO
                     .builder()
                     .success(true)
                     .message("You deleted carrier successfully.")
                     .build();
+        } else {
+            return SimpleResponseDTO
+                    .builder()
+                    .success(false)
+                    .message("You deleted carrier unsuccessfully.")
+                    .build();
         }
-        return SimpleResponseDTO
-                .builder()
-                .success(true)
-                .message("You deleted carrier successfully.")
-                .build();
 
     }
 }

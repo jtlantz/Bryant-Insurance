@@ -1,10 +1,8 @@
 package org.bryantinsurance;
 
-import org.bryantinsurance.model.Client;
 import org.bryantinsurance.model.User;
 import org.bryantinsurance.repository.ClientRepository;
 import org.bryantinsurance.repository.UserRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -35,10 +32,6 @@ public class UserService {
 
     public List<User> findAllUser() {
         return userRepository.findAll();
-    }
-
-    public List<Client> findAllClients() {
-        return clientRepository.findAll();
     }
 
     public SimpleResponseDTO createUser(User request) {

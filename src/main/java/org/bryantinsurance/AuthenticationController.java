@@ -1,5 +1,6 @@
 package org.bryantinsurance;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,10 @@ public class AuthenticationController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         try {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(principal instanceof CustomUserDetails){
+                request.logout();
+            }
             request.login(username, password);
             return SimpleResponseDTO
                     .builder()
