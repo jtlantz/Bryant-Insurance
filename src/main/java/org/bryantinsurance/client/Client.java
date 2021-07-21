@@ -1,9 +1,9 @@
 package org.bryantinsurance.client;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -14,6 +14,7 @@ import java.util.Set;
 @Getter
 @Data
 @Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Table(name = "client")
 public class Client {
 
@@ -49,9 +50,6 @@ public class Client {
     @Column(name = "quote_status")
     private String quoteStatus;
 
-    @Column(name = "number_of_policy")
-    private int numberOfPolicy;
-
     @Column(name = "commission_amount")
     private int commissionAmount;
 
@@ -61,7 +59,12 @@ public class Client {
     @Column(name = "referral")
     private String referral;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "client")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "join_client_carrier",
+            joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "cid", foreignKey = @ForeignKey(name = "FK_client")),
+            inverseJoinColumns = @JoinColumn(name = "carrier_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_carrier")),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"client_id", "carrier_id"})
+    )
     private Set<Carrier> carriers = new HashSet<>();
 }
+

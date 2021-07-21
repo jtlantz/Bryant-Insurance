@@ -28,6 +28,28 @@ public class UserController {
     private ClientService clientService;
 
 
+    @GetMapping("/current_user")
+    public CurrentUserDTO getCurrentUser(){
+
+            try {
+            Object principal = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(principal instanceof CustomUserDetails){
+                CustomUserDetails user = (CustomUserDetails) principal;
+                User u = userService.findByUsername(user.getUsername());
+                return CurrentUserDTO.builder()
+                        .isLoggedIn(true)
+                        .username(u.getUsername())
+                        .role(u.getRole())
+                        .build();
+            }
+        }catch (Exception e){
+
+        }
+            return CurrentUserDTO.builder()
+                    .isLoggedIn(false)
+                    .build();
+    }
+
     @GetMapping("/user/{username}")
     public ResponseEntity<User> getUser(@PathVariable("username") String username) {
         return ResponseEntity.ok(userService.findByUsername(username));
@@ -83,11 +105,11 @@ public class UserController {
 
     @PostMapping("/carrier/create/{cid}")
     public SimpleResponseDTO createCarrier(@RequestBody Carrier request, @PathVariable("cid") Long cid) {
-        return clientService.createCarrier(cid, request);
+        return clientService.addCarrierToClient(cid, request);
     }
 
-    @DeleteMapping("/carrier/delete/{id}")
-    public SimpleResponseDTO deleteCarrier(@PathVariable("id") Long id) {
-        return clientService.deleteCarrier(id);
+    @DeleteMapping("/carrier/delete/{cid}/{id}")
+    public SimpleResponseDTO deleteCarrier(@PathVariable("cid") Long cid, @PathVariable("id") Long id) {
+        return clientService.deleteCarrierFromClient(cid, id);
     }
 }
