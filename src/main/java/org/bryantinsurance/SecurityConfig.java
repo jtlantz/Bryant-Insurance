@@ -12,7 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -34,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //permit all
         http.authorizeRequests()
                 .antMatchers("/","/api/login", "/api/logout", "/api/current_user").permitAll();
-        //USER
+
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/user").hasAnyRole("USER", "ADMIN");
 
@@ -49,6 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/api/client/**").hasAnyRole("ADMIN", "USER");
+
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/api/role").hasAnyRole("ADMIN", "USER");
 
         http.authorizeRequests()
                 .antMatchers("/api/carrier").hasAnyRole("ADMIN", "USER");
@@ -66,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         public void commence(HttpServletRequest httpServletRequest,
                              HttpServletResponse httpServletResponse,
-                             AuthenticationException e) throws IOException, ServletException {
+                             AuthenticationException e) throws IOException {
             //send JSON msg
             String ajaxJsonResponse = AjaxUtils.convertToString(SimpleResponseDTO
                     .builder()

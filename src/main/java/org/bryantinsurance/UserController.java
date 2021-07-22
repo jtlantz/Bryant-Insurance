@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -52,7 +51,7 @@ public class UserController {
         return userService.findAllUser();
     }
 
-    @PostMapping("/user/create")
+    @PostMapping("/user/create") // ADMIN ONLY
     public SimpleResponseDTO createUser(@RequestBody User request) {
         return userService.createUser(request);
     }
@@ -121,4 +120,10 @@ public class UserController {
     public SimpleResponseDTO deleteCarrier(@PathVariable("id") Long id) {
         return clientService.deleteCarrier(id);
     }
+
+    @GetMapping("/role")
+    public List<SimpleResponseDTO> getRole(){
+        return userService.getRoles();
+    }
+
 }

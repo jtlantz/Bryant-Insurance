@@ -95,4 +95,11 @@ public class UserService {
         userRepository.save(user);
         return createSimpleResponseDTO(true,"You changed password successfully.");
     }
+
+    public List<SimpleResponseDTO> getRoles() {
+        List<SimpleResponseDTO> roles = new ArrayList<>();
+        roles.add(SimpleResponseDTO.builder().success(true).message("ROLE_ADMIN").build());
+        roles.add(SimpleResponseDTO.builder().success(true).message("ROLE_USER").build());
+        return roles;
+    }
 }
