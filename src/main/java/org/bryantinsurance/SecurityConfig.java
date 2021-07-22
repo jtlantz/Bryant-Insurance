@@ -1,5 +1,6 @@
 package org.bryantinsurance;
 
+import org.bryantinsurance.dto.SimpleResponseDTO;
 import org.bryantinsurance.util.AjaxUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,10 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/user/**").hasRole("ADMIN");
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.PATCH, "/api/user/**").hasRole("ADMIN");
+                .antMatchers(HttpMethod.PATCH, "/api/user/**").hasAnyRole("ADMIN", "USER");
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN");
+                .antMatchers(HttpMethod.DELETE, "/api/user/**").hasAnyRole("ADMIN", "USER");
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/api/client/**").hasAnyRole("ADMIN", "USER");

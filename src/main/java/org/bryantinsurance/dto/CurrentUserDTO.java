@@ -1,4 +1,4 @@
-package org.bryantinsurance;
+package org.bryantinsurance.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

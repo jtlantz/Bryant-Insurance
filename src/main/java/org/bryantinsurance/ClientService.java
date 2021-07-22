@@ -1,15 +1,17 @@
 package org.bryantinsurance;
 
+import org.bryantinsurance.dto.CarrierDTO;
+import org.bryantinsurance.dto.ClientDTO;
+import org.bryantinsurance.dto.SimpleResponseDTO;
 import org.bryantinsurance.model.Carrier;
 import org.bryantinsurance.model.Client;
 import org.bryantinsurance.repository.CarrierRepository;
 import org.bryantinsurance.repository.ClientRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,34 +24,64 @@ public class ClientService {
     @Autowired
     private CarrierRepository carrierRepository;
 
-    public List<Client> findAllClients() {
-        return clientRepository.findAll();
+    public SimpleResponseDTO createSimpleResponseDTO(Boolean bool, String message) {
+        return SimpleResponseDTO.builder()
+                .success(bool)
+                .message(message)
+                .build();
+    }
+
+    public ClientDTO createClientDTO(Client client) {
+        return ClientDTO.builder()
+                .id(client.getId())
+                .firstname(client.getFirstname())
+                .lastname(client.getLastname())
+                .phoneNumber(client.getPhoneNumber())
+                .email(client.getEmail())
+                .quoteDate(client.getQuoteDate())
+                .dateSold(client.getDateSold())
+                .latestContactDate(client.getLatestContactDate())
+                .expiryDate(client.getExpiryDate())
+                .quoteStatus(client.getQuoteStatus())
+                .commissionAmount(client.getCommissionAmount())
+                .hasReview(client.isHasReview())
+                .referral(client.getReferral())
+                .carriers(client.getCarriers())
+                .build();
+    }
+
+    public CarrierDTO createCarrierDTO(Carrier carrier) {
+        return CarrierDTO.builder()
+                .id(carrier.getId())
+                .type(carrier.getType())
+                .build();
+    }
+
+    public List<ClientDTO> findAllClients() {
+        List<Client> clients = clientRepository.findAll();
+        List<ClientDTO> clientDTOList = new ArrayList<>();
+        for(Client client: clients) {
+            clientDTOList.add(createClientDTO(client));
+        }
+        return clientDTOList;
     }
 
     public SimpleResponseDTO createClient(Client request) {
         Client firstname = clientRepository.findByFirstname(request.getFirstname());
         Client lastname = clientRepository.findByLastname(request.getLastname());
         if (firstname != null && lastname != null) {
-            throw new DuplicateKeyException("Client already exist");
+            return createSimpleResponseDTO(false, "Client already exist");
         }
         Client client = new Client();
         BeanUtils.copyProperties(request, client);
         clientRepository.save(client);
-        return SimpleResponseDTO
-                .builder()
-                .success(true)
-                .message("You created client successfully.")
-                .build();
+        return createSimpleResponseDTO(true, "You created client successfully.");
     }
 
     public SimpleResponseDTO updateClient(Long cid, Client request) {
         Optional<Client> optionalClient = clientRepository.findById(cid);
-        Client firstname = clientRepository.findByFirstname(request.getFirstname());
-        Client lastname = clientRepository.findByLastname(request.getLastname());
         if (!optionalClient.isPresent()) {
-            throw new EntityNotFoundException("Cannot find client in database");
-        } else if (firstname != null && lastname != null) {
-            throw new DuplicateKeyException("Client already exist");
+            return createSimpleResponseDTO(false, "Cannot find client in database");
         }
         Client client = optionalClient.get();
         client.setFirstname(request.getFirstname());
@@ -65,28 +97,16 @@ public class ClientService {
         client.setHasReview(request.isHasReview());
         client.setReferral(request.getReferral());
         clientRepository.save(client);
-        return SimpleResponseDTO
-                .builder()
-                .success(true)
-                .message("You updated client successfully.")
-                .build();
+        return createSimpleResponseDTO(true, "You updated client successfully.");
     }
 
     public SimpleResponseDTO deleteClient(Long cid) {
         Optional<Client> client = clientRepository.findById(cid);
         if (client.isPresent()) {
             clientRepository.deleteById(cid);
-            return SimpleResponseDTO
-                    .builder()
-                    .success(true)
-                    .message("You deleted client successfully.")
-                    .build();
+            return createSimpleResponseDTO(true, "You deleted client successfully.");
         } else {
-            return SimpleResponseDTO
-                    .builder()
-                    .success(false)
-                    .message("Cannot find client in database.")
-                    .build();
+            return createSimpleResponseDTO(false, "Cannot find client in database.");
         }
     }
 
@@ -94,17 +114,20 @@ public class ClientService {
         Client client = clientRepository.getById(cid);
         Carrier carrier = carrierRepository.findByType(request.getType());
         client.getCarriers().add(carrier);
+        carrier.getClients().add(client);
+        carrierRepository.save(carrier);
         clientRepository.save(client);
-        return SimpleResponseDTO
-                .builder()
-                .success(true)
-                .message("You created carrier successfully.")
-                .build();
+        return createSimpleResponseDTO(true, "You created carrier successfully.");
     }
 
-    public List<Carrier> findAllCarriers(Long cid) {
+    public List<CarrierDTO> findAllCarriersOfClient(Long cid) {
         Client client = clientRepository.getById(cid);
-        return carrierRepository.findByClients(client);
+        List<Carrier> carriers = carrierRepository.findByClients(client);
+        List<CarrierDTO> carrierDTOList = new ArrayList<>();
+        for(Carrier carrier: carriers) {
+            carrierDTOList.add(createCarrierDTO(carrier));
+        }
+        return carrierDTOList;
     }
 
     public SimpleResponseDTO deleteCarrierFromClient(Long cid, Long id) {
@@ -113,18 +136,35 @@ public class ClientService {
         if (carrier.isPresent()) {
             client.getCarriers().remove(carrier.get());
             clientRepository.save(client);
-            return SimpleResponseDTO
-                    .builder()
-                    .success(true)
-                    .message("You deleted carrier successfully.")
-                    .build();
+            return createSimpleResponseDTO(true, "You deleted carrier successfully.");
         } else {
-            return SimpleResponseDTO
-                    .builder()
-                    .success(false)
-                    .message("You deleted carrier unsuccessfully.")
-                    .build();
+            return createSimpleResponseDTO(false, "You deleted carrier unsuccessfully.");
         }
+    }
 
+    public List<CarrierDTO> getAllCarriers() {
+        List<Carrier> carriers = carrierRepository.findAll();
+        List<CarrierDTO> carrierDTOList = new ArrayList<>();
+        for(Carrier carrier: carriers) {
+            carrierDTOList.add(createCarrierDTO(carrier));
+        }
+        return carrierDTOList;
+    }
+
+    public SimpleResponseDTO createCarrier(Carrier request) {
+        Carrier carrier = new Carrier();
+        BeanUtils.copyProperties(request, carrier);
+        carrierRepository.save(carrier);
+        return createSimpleResponseDTO(true, "You created carrier successfully.");
+    }
+
+    public SimpleResponseDTO deleteCarrier(Long id) {
+        Optional<Carrier> carrier = carrierRepository.findById(id);
+        if (carrier.isPresent()) {
+            carrierRepository.deleteById(id);
+            return createSimpleResponseDTO(true, "You deleted carrier successfully.");
+        } else {
+            return createSimpleResponseDTO(false, "Cannot find carrier in database.");
+        }
     }
 }
