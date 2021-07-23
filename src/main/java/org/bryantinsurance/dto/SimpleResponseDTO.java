@@ -1,4 +1,4 @@
-package org.bryantinsurance;
+package org.bryantinsurance.dto;
 
 import lombok.Builder;
 import lombok.Getter;

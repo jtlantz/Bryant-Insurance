@@ -1,13 +1,13 @@
-package net.bryant.webapplicationproject;
+package org.bryantinsurance;
 
-import net.bryant.webapplicationproject.model.Client;
-import net.bryant.webapplicationproject.model.User;
+import org.bryantinsurance.dto.*;
+import org.bryantinsurance.model.Carrier;
+import org.bryantinsurance.model.Client;
+import org.bryantinsurance.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/api")
@@ -16,17 +16,42 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ClientService clientService;
+
+    @GetMapping("/current_user")
+    public CurrentUserDTO getCurrentUser() {
+        try {
+            Object principal = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(principal instanceof CustomUserDetails){
+                CustomUserDetails user = (CustomUserDetails) principal;
+                UserDTO u = userService.findByUsername(user.getUsername());
+                return CurrentUserDTO.builder()
+                        .isLoggedIn(true)
+                        .username(u.getUsername())
+                        .role(u.getRole())
+                        .build();
+            }
+        } catch (Exception e) {
+
+        }
+        return CurrentUserDTO.builder()
+                .isLoggedIn(false)
+                .build();
+    }
+
+
     @GetMapping("/user/{username}")
-    public ResponseEntity<User> getUser(@PathVariable("username") String username) {
-        return ResponseEntity.ok(userService.findByUsername(username));
+    public UserDTO getUser(@PathVariable("username") String username) {
+        return userService.findByUsername(username);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.findAllUser());
+    public List<UserDTO> getAllUsers() {
+        return userService.findAllUser();
     }
 
-    @PostMapping("/user")
+    @PostMapping("/user/create") // ADMIN ONLY
     public SimpleResponseDTO createUser(@RequestBody User request) {
         return userService.createUser(request);
     }
@@ -41,23 +66,64 @@ public class UserController {
         return userService.deleteUser(username);
     }
 
-    @GetMapping("/client")
-    public ResponseEntity<List<Client>> findAllClients() {
-        return ResponseEntity.ok(userService.findAllClients());
+    @PatchMapping("/user/changepw/{username}")
+    public SimpleResponseDTO changePasswordUser(@RequestBody User request, @PathVariable("username") String username) {
+        return userService.changePassword(username, request);
     }
 
-    @PostMapping("/client")
+    @GetMapping("/client")
+    public List<ClientDTO> findAllClients() {
+        return clientService.findAllClients();
+    }
+
+    @PostMapping("/client/create")
     public SimpleResponseDTO createClient(@RequestBody Client request) {
-        return userService.createClient(request);
+        return clientService.createClient(request);
     }
 
     @PatchMapping("/client/{cid}")
     public SimpleResponseDTO updateClient(@RequestBody Client request, @PathVariable("cid") Long cid) {
-        return userService.updateClient(cid, request);
+        return clientService.updateClient(cid, request);
     }
 
     @DeleteMapping("/client/{cid}")
     public SimpleResponseDTO deleteClient(@PathVariable("cid") Long cid) {
-        return userService.deleteClient(cid);
+        return clientService.deleteClient(cid);
     }
+
+    @GetMapping("/carrier")
+    public List<CarrierDTO> getAllCarriers() {
+        return clientService.getAllCarriers();
+    }
+
+    @GetMapping("/carrier/{cid}")
+    public List<CarrierDTO> getCarriersOfClient(@PathVariable("cid") Long cid) {
+        return clientService.findAllCarriersOfClient(cid);
+    }
+
+    @PostMapping("/carrier/create/{cid}")
+    public SimpleResponseDTO addCarrierToClient(@RequestBody Carrier request, @PathVariable("cid") Long cid) {
+        return clientService.addCarrierToClient(cid, request);
+    }
+
+    @DeleteMapping("/carrier/delete/{cid}/{id}")
+    public SimpleResponseDTO deleteCarrierFromClient(@PathVariable("cid") Long cid, @PathVariable("id") Long id) {
+        return clientService.deleteCarrierFromClient(cid, id);
+    }
+
+    @PostMapping("/carrier/create")
+    public SimpleResponseDTO createCarrier(@RequestBody Carrier request) {
+        return clientService.createCarrier(request);
+    }
+
+    @DeleteMapping("/carrier/delete/{id}")
+    public SimpleResponseDTO deleteCarrier(@PathVariable("id") Long id) {
+        return clientService.deleteCarrier(id);
+    }
+
+    @GetMapping("/role")
+    public List<SimpleResponseDTO> getRole(){
+        return userService.getRoles();
+    }
+
 }
