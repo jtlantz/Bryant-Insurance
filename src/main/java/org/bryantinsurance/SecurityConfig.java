@@ -12,6 +12,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -68,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         public void commence(HttpServletRequest httpServletRequest,
                              HttpServletResponse httpServletResponse,
-                             AuthenticationException e) throws IOException {
+                             AuthenticationException e) throws IOException, ServletException {
             //send JSON msg
             String ajaxJsonResponse = AjaxUtils.convertToString(SimpleResponseDTO
                     .builder()

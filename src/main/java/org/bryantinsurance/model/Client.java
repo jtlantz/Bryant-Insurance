@@ -53,9 +53,6 @@ public class Client {
     @Column(name = "commission_amount")
     private int commissionAmount;
 
-    @Column(name = "has_review")
-    private boolean hasReview;
-
     @Column(name = "referral")
     private String referral;
 

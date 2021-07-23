@@ -1106,78 +1106,73 @@ bryant_insurance|schema||ssc||UPDATE|G</Grants>
       <Position>11</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="345" parent="328" name="has_review">
+    <column id="345" parent="328" name="referral">
       <Position>12</Position>
-      <DataType>tinyint(1)|0s</DataType>
-      <DefaultExpression>0</DefaultExpression>
-    </column>
-    <column id="346" parent="328" name="referral">
-      <Position>13</Position>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <index id="347" parent="328" name="Client_CID_uindex">
+    <index id="346" parent="328" name="Client_CID_uindex">
       <ColNames>cid</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="348" parent="328" name="PRIMARY">
+    <key id="347" parent="328" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>cid</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="349" parent="328" name="Client_CID_uindex">
+    <key id="348" parent="328" name="Client_CID_uindex">
       <ColNames>cid</ColNames>
       <UnderlyingIndexName>Client_CID_uindex</UnderlyingIndexName>
     </key>
-    <column id="350" parent="329" name="client_id">
+    <column id="349" parent="329" name="client_id">
       <Position>1</Position>
       <DataType>bigint(20)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="351" parent="329" name="carrier_id">
+    <column id="350" parent="329" name="carrier_id">
       <Position>2</Position>
       <DataType>bigint(20)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="352" parent="329" name="FK_client">
+    <index id="351" parent="329" name="FK_client">
       <ColNames>client_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="353" parent="329" name="PRIMARY">
+    <key id="352" parent="329" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>carrier_id
 client_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="354" parent="329" name="FK_client">
+    <foreign-key id="353" parent="329" name="FK_client">
       <ColNames>client_id</ColNames>
       <RefTableName>client</RefTableName>
       <RefColNames>cid</RefColNames>
     </foreign-key>
-    <foreign-key id="355" parent="329" name="FK_carrier">
+    <foreign-key id="354" parent="329" name="FK_carrier">
       <ColNames>carrier_id</ColNames>
       <RefTableName>carrier</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="356" parent="330" name="sid">
+    <column id="355" parent="330" name="sid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="357" parent="330" name="password">
+    <column id="356" parent="330" name="password">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="358" parent="330" name="role">
+    <column id="357" parent="330" name="role">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="359" parent="330" name="username">
+    <column id="358" parent="330" name="username">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <key id="360" parent="330" name="PRIMARY">
+    <key id="359" parent="330" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>sid</ColNames>
       <Primary>1</Primary>

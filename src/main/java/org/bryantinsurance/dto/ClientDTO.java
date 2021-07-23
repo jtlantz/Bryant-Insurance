@@ -36,8 +36,6 @@ public class ClientDTO {
 
     private int commissionAmount;
 
-    private boolean hasReview;
-
     private String referral;
 
     private Set<Carrier> carriers;

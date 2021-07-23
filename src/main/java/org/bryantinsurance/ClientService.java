@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,6 @@ public class ClientService {
                 .expiryDate(client.getExpiryDate())
                 .quoteStatus(client.getQuoteStatus())
                 .commissionAmount(client.getCommissionAmount())
-                .hasReview(client.isHasReview())
                 .referral(client.getReferral())
                 .carriers(client.getCarriers())
                 .build();
@@ -94,7 +94,6 @@ public class ClientService {
         client.setExpiryDate(request.getExpiryDate());
         client.setQuoteStatus(request.getQuoteStatus());
         client.setCommissionAmount(request.getCommissionAmount());
-        client.setHasReview(request.isHasReview());
         client.setReferral(request.getReferral());
         clientRepository.save(client);
         return createSimpleResponseDTO(true, "You updated client successfully.");
@@ -114,10 +113,8 @@ public class ClientService {
         Client client = clientRepository.getById(cid);
         Carrier carrier = carrierRepository.findByType(request.getType());
         client.getCarriers().add(carrier);
-        carrier.getClients().add(client);
-        carrierRepository.save(carrier);
         clientRepository.save(client);
-        return createSimpleResponseDTO(true, "You created carrier successfully.");
+        return createSimpleResponseDTO(true, "You added carrier to client successfully.");
     }
 
     public List<CarrierDTO> findAllCarriersOfClient(Long cid) {
